@@ -364,6 +364,20 @@ public class AntTest {
         testVariableReplaced("");
     }
 
+    @Test
+    @Issue("JENKINS-27768")
+    public void myTest() throws Exception {
+        String antName = configureDefaultAnt().getName();
+        FreeStyleProject project = r.createFreeStyleProject();
+        project.setScm(new ExtractResourceSCM(getClass().getResource("ant-job.zip")));
+        project.addProperty(new ParametersDefinitionProperty(
+                new StringParameterDefinition("vFOO", "<xml/>", "")));
+        project.getBuildersList().add(new Ant("clean", antName, null, null, null));
+        FreeStyleBuild build = project.scheduleBuild2(0).get();
+        r.assertBuildStatusSuccess(build);
+        assertTrue(false);
+    }
+
     private void testVariableReplaced(String variableValue) throws Exception {
         FreeStyleProject project = createSimpleAntProject("", null, "build-properties.xml", "testProperty=$variable");
 

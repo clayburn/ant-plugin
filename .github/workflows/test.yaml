@@ -22,6 +22,6 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
       - name: Build with Maven
-        run: .\mvnw.cmd clean verify -B -Dtest=AntTest
+        run: .\mvnw.cmd clean verify -B -Dtest=AntTest#myTest
         env:
           DEVELOCITY_ACCESS_KEY: ${{ secrets.DV_SOLUTIONS_ACCESS_KEY }}
